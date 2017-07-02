@@ -10,8 +10,11 @@ import weka.filters.unsupervised.attribute.Normalize;
 
 /**
  *
- * @author Taha Emara Website: http://www.emaraic.com Email : taha@emaraic.com
+ * @author Taha Emara 
+ * Website: http://www.emaraic.com 
+ * Email : taha@emaraic.com
  * Created on: Jul 1, 2017
+ * Github link: https://github.com/emara-geek/weka-example
  */
 public class Test {
 
@@ -51,7 +54,8 @@ public class Test {
 
         //classifiy a single instance 
         ModelClassifier cls = new ModelClassifier();
-        System.out.println(cls.classifiy(Filter.useFilter(cls.createInstance(1.6, 0.2, 0), filter), MODElPATH));
+        String classname =cls.classifiy(Filter.useFilter(cls.createInstance(1.6, 0.2, 0), filter), MODElPATH);
+        System.out.println("\n The class name for the instance with petallength = 1.6 and petalwidth =0.2 is  " +classname);
 
     }
 

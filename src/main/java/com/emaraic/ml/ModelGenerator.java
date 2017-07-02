@@ -15,6 +15,7 @@ import weka.core.converters.ConverterUtils.DataSource;
  * Website: http://www.emaraic.com 
  * Email : taha@emaraic.com
  * Created on: Jun 28, 2017
+ * Github link: https://github.com/emara-geek/weka-example
  */
 public class ModelGenerator {
 

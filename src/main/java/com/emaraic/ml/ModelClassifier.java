@@ -14,8 +14,9 @@ import weka.core.SerializationHelper;
  * This is a classifier for iris.2D.arff dataset  
  * @author Taha Emara 
  * Website: http://www.emaraic.com 
- * Email : taha@emaraic.com
+ * Email  : taha@emaraic.com
  * Created on: Jul 1, 2017
+ * Github link: https://github.com/emara-geek/weka-example
  */
 public class ModelClassifier {
 
@@ -44,15 +45,7 @@ public class ModelClassifier {
         dataRaw.setClassIndex(dataRaw.numAttributes() - 1);
     }
 
-    /**
-     *
-     * @param water
-     * @param sound
-     * @param temp1
-     * @param temp2
-     * @param result
-     * @return Instances
-     */
+    
     public Instances createInstance(double petallength, double petalwidth, double result) {
         dataRaw.clear();
         double[] instanceValue1 = new double[]{petallength, petalwidth, 0};
@@ -60,13 +53,7 @@ public class ModelClassifier {
         return dataRaw;
     }
 
-    /**
-     *
-     * @param insts
-     * @param path
-     * @param type
-     * @return String represents class
-     */
+
     public String classifiy(Instances insts, String path) {
         String result = "Not classified!!";
         Classifier cls = null;
@@ -79,10 +66,7 @@ public class ModelClassifier {
         return result;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public Instances getInstance() {
         return dataRaw;
     }
