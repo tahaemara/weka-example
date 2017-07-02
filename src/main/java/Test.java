@@ -1,7 +1,6 @@
 
 import com.emaraic.ml.ModelClassifier;
 import com.emaraic.ml.ModelGenerator;
-import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Debug;
 import weka.core.Instances;

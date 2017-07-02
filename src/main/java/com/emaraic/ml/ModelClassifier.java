@@ -71,9 +71,5 @@ public class ModelClassifier {
         return dataRaw;
     }
     
-    public static void main(String[] args) {
-        ModelClassifier cls=new ModelClassifier();
-        System.out.println( cls.classifiy(cls.createInstance(5.1,2, 0),"/Users/Emaraic/Temp/ml/model.data"));
-    }
 
 }
