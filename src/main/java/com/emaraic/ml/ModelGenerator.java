@@ -2,6 +2,7 @@ package com.emaraic.ml;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import weka.classifiers.Classifier;
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Instances;
@@ -17,7 +18,7 @@ import weka.core.converters.ConverterUtils.DataSource;
  */
 public class ModelGenerator {
 
-    private Instances loadDataset(String path) {
+    public Instances loadDataset(String path) {
         Instances dataset = null;
         try {
             dataset = DataSource.read(path);
@@ -31,19 +32,18 @@ public class ModelGenerator {
         return dataset;
     }
 
-    public static void main(String[] args) throws Exception {
-        ModelGenerator mg = new ModelGenerator();
-        Instances dataset = mg.loadDataset("/Users/Emaraic/Temp/ml/iris.2D.arff");
-
+    public Classifier buildClassifier(Instances traindataset) {
         MultilayerPerceptron m = new MultilayerPerceptron();
+        
         //m.setGUI(true);
         //m.setValidationSetSize(0);
-        m.setBatchSize("50");
-        m.setLearningRate(0);
-        m.setSeed(0);
-        m.setMomentum(0);
-        m.setTrainingTime(150);//epochs
-
+        //m.setBatchSize("100");
+        //m.setLearningRate(0.3);
+        //m.setSeed(0);
+        //m.setMomentum(0.2);
+        //m.setTrainingTime(500);//epochs
+        //m.setNormalizeAttributes(true);
+        
         /*Multipreceptron parameters and its default values 
         *Learning Rate for the backpropagation algorithm (Value should be between 0 - 1, Default = 0.3).
         *m.setLearningRate(0);
@@ -70,23 +70,33 @@ public class ModelGenerator {
         *m.setBatchSize("1");
          */
         try {
-            // divide dataset to train dataset 80% and test dataset 20%
-            int trainSize = (int) Math.round(dataset.numInstances() * 0.8);
-            int testSize = dataset.numInstances() - trainSize;
-            Instances train = new Instances(dataset, 0, trainSize);
-            Instances test = new Instances(dataset, trainSize, testSize);
-            // build classifier with train dataset             
-            m.buildClassifier(train);
-           
-            // Evaluate classifier with test dataset
-            Evaluation eval = new Evaluation(test);
-            eval.evaluateModel(m, dataset);
-            
-            System.out.println(eval.toSummaryString("\nResults\n\n", false));
+            m.buildClassifier(traindataset);
+
         } catch (Exception ex) {
             Logger.getLogger(ModelGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        SerializationHelper.write("/Users/Emaraic/Temp/ml/model.data", m);
-
+        return m;
     }
+
+    public String evaluateModel(Classifier model, Instances traindataset, Instances testdataset) {
+        Evaluation eval = null;
+        try {
+            // Evaluate classifier with test dataset
+            eval = new Evaluation(traindataset);
+            eval.evaluateModel(model, testdataset);
+        } catch (Exception ex) {
+            Logger.getLogger(ModelGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return eval.toSummaryString("", true);
+    }
+
+    public void saveModel(Classifier model, String modelpath) {
+
+        try {
+            SerializationHelper.write(modelpath, model);
+        } catch (Exception ex) {
+            Logger.getLogger(ModelGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

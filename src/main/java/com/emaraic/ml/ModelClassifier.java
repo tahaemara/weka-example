@@ -3,7 +3,7 @@ package com.emaraic.ml;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import weka.classifiers.AbstractClassifier;
+import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -11,13 +11,13 @@ import weka.core.Instances;
 import weka.core.SerializationHelper;
 
 /**
- *
+ * This is a classifier for iris.2D.arff dataset  
  * @author Taha Emara 
  * Website: http://www.emaraic.com 
  * Email : taha@emaraic.com
  * Created on: Jul 1, 2017
  */
-public class Classifier {
+public class ModelClassifier {
 
     private Attribute petallength;
     private Attribute petalwidth;
@@ -27,7 +27,7 @@ public class Classifier {
     private Instances dataRaw;
 
 
-    public Classifier() {
+    public ModelClassifier() {
         petallength = new Attribute("petallength");
         petalwidth = new Attribute("petalwidth");
         attributes = new ArrayList<Attribute>();
@@ -39,7 +39,7 @@ public class Classifier {
         attributes.add(petallength);
         attributes.add(petalwidth);
 
-        attributes.add(new Attribute("Result", classVal));
+        attributes.add(new Attribute("class", classVal));
         dataRaw = new Instances("TestInstances", attributes, 0);
         dataRaw.setClassIndex(dataRaw.numAttributes() - 1);
     }
@@ -69,12 +69,12 @@ public class Classifier {
      */
     public String classifiy(Instances insts, String path) {
         String result = "Not classified!!";
-        AbstractClassifier cls = null;
+        Classifier cls = null;
         try {
             cls = (MultilayerPerceptron) SerializationHelper.read(path);
             result = classVal.get((int) cls.classifyInstance(insts.firstInstance()));
         } catch (Exception ex) {
-            Logger.getLogger(Classifier.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModelClassifier.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -88,7 +88,7 @@ public class Classifier {
     }
     
     public static void main(String[] args) {
-        Classifier cls=new Classifier();
+        ModelClassifier cls=new ModelClassifier();
         System.out.println( cls.classifiy(cls.createInstance(5.1,2, 0),"/Users/Emaraic/Temp/ml/model.data"));
     }
 
